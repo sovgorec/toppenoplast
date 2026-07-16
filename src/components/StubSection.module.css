@@ -1,0 +1,29 @@
+.stub {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #f5f7fa 0%, #e8ecf1 100%);
+  border-top: 1px solid #dde3ea;
+}
+
+.inner {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+}
+
+.desc {
+  font-size: 16px;
+  font-weight: 300;
+  color: #666;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}

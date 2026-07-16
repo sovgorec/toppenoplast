@@ -1,0 +1,273 @@
+.services {
+  position: relative;
+}
+
+.pinSpacer {
+  position: relative;
+}
+
+.stickyPanel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.inner {
+  width: 100%;
+  padding: 40px 0;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  padding-right: 6px;
+}
+
+.sidebar {
+  max-width: 306px;
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 80px);
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.item {
+  padding: 10px 10px 10px 26px;
+  position: relative;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 200px;
+  color: #000;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -8px;
+  width: 16px;
+  height: 16px;
+  background: url("/img/arrow-bottom.svg") no-repeat center center;
+  transition: transform 0.25s ease;
+}
+
+.item:hover {
+  color: #006eff;
+  transform: translateX(6px);
+}
+
+.item:hover::before {
+  transform: translateY(2px) rotate(-90deg);
+}
+
+.servicesBtn {
+  max-width: 242px;
+  width: 100%;
+  height: 65px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 35px;
+  margin-top: auto;
+}
+
+.content {
+  flex: 1;
+  max-width: 935px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 80px);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 19px;
+  flex-shrink: 0;
+}
+
+.text {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 135%;
+  margin-bottom: 32px;
+  flex-shrink: 0;
+}
+
+.cardsViewport {
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.cardsInner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px 16px;
+  will-change: transform;
+}
+
+.catMob {
+  display: none;
+  font-size: 24px;
+  margin-bottom: 34px;
+  position: relative;
+}
+
+.catMob::after {
+  content: "";
+  position: absolute;
+  background: url("/img/arrow-bottom.svg") no-repeat center center;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  margin-top: -10px;
+  right: 0;
+  transform: scale(1.8);
+}
+
+/* Card styles */
+.card {
+  display: block;
+}
+
+.cardPreview {
+  width: 100%;
+  height: 334px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.cardPreview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.3s ease;
+  border-radius: 20px;
+}
+
+.cardName {
+  font-size: 16px;
+  padding-left: 5px;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover .cardPreview {
+  transform: scale(1.03);
+}
+
+.card:hover .cardPreview::after {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.card:hover .cardName {
+  color: #006eff;
+  transform: translateX(4px);
+}
+
+/* Mobile: no sticky */
+@media screen and (max-width: 1200px) {
+  .sidebar {
+    max-width: 220px;
+  }
+
+  .cardsInner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content {
+    max-width: 660px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .cardPreview {
+    height: 300px;
+  }
+
+  .content {
+    max-width: 440px;
+  }
+
+  .servicesBtn {
+    height: 55px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .pinSpacer {
+    height: auto !important;
+  }
+
+  .stickyPanel {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .inner {
+    padding: 58px 0 100px;
+  }
+
+  .flex {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    max-height: 0;
+    overflow: hidden;
+    height: auto;
+  }
+
+  .title,
+  .text {
+    display: none;
+  }
+
+  .content {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .cardsViewport {
+    overflow: visible;
+  }
+
+  .cardsInner {
+    transform: none !important;
+  }
+
+  .catMob {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .cardsInner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
