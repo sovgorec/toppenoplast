@@ -253,7 +253,8 @@ input[type="submit"] {
 
 /* Hero */
 .hero {
-  height: 1024px;
+  min-height: 100svh;
+  height: 100svh;
   position: relative;
   background: url("/img/hero-bg.jpg") no-repeat center center / cover;
 }
@@ -275,7 +276,7 @@ input[type="submit"] {
 
 .hero-content {
   padding-left: 32px;
-  padding-bottom: 153px;
+  padding-bottom: clamp(60px, 12vh, 153px);
 }
 
 .hero-content_mob {
@@ -365,20 +366,12 @@ input[type="submit"] {
   .hero__title {
     font-size: 44px;
   }
-
-  .hero {
-    height: 840px;
-  }
-
-  .hero-content {
-    padding-bottom: 120px;
-  }
 }
 
 @media screen and (max-width: 576px) {
   .container {
     width: 92vw;
-    padding: 0;
+    padding: 0 16px;
   }
 
   .header__btn {
@@ -390,7 +383,6 @@ input[type="submit"] {
   }
 
   .hero {
-    height: 844px;
     background: url("/img/hero-bg-mob.jpg") no-repeat center center / cover !important;
   }
 
@@ -400,7 +392,8 @@ input[type="submit"] {
 
   .hero-content_mob {
     display: block !important;
-    padding-bottom: 60px;
+    padding-left: 0;
+    padding-bottom: clamp(40px, 8vh, 60px);
   }
 
   .hero__desc {

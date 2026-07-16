@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { categories, serviceCards } from "@/data/services";
 import ServiceCard from "./ServiceCard";
 import styles from "./ServicesSticky.module.css";
@@ -13,35 +13,16 @@ export default function ServicesSticky() {
   const cardsInnerRef = useRef<HTMLDivElement>(null);
   const cardsViewportRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
+  const stickyEnabledRef = useRef(true);
 
-  const [pinHeight, setPinHeight] = useState<number | null>(null);
   const [cardOffset, setCardOffset] = useState(0);
   const [isStickyEnabled, setIsStickyEnabled] = useState(true);
+  const [catalogOpen, setCatalogOpen] = useState(false);
 
-  const measure = useCallback(() => {
+  const layout = useCallback(() => {
     const mobile = window.innerWidth <= MOBILE_BREAKPOINT;
+    stickyEnabledRef.current = !mobile;
     setIsStickyEnabled(!mobile);
-
-    if (mobile) {
-      setPinHeight(null);
-      setCardOffset(0);
-      return;
-    }
-
-    const viewport = cardsViewportRef.current;
-    const inner = cardsInnerRef.current;
-
-    if (!viewport || !inner) return;
-
-    const viewportHeight = viewport.clientHeight;
-    const innerHeight = inner.scrollHeight;
-    const scrollDistance = Math.max(innerHeight - viewportHeight, 0);
-
-    setPinHeight(window.innerHeight + scrollDistance);
-  }, []);
-
-  const updateScroll = useCallback(() => {
-    if (!isStickyEnabled) return;
 
     const spacer = pinSpacerRef.current;
     const viewport = cardsViewportRef.current;
@@ -49,78 +30,85 @@ export default function ServicesSticky() {
 
     if (!spacer || !viewport || !inner) return;
 
-    const viewportHeight = window.innerHeight;
-    const totalScroll = spacer.offsetHeight - viewportHeight;
-    const rect = spacer.getBoundingClientRect();
+    if (mobile) {
+      spacer.style.height = "";
+      setCardOffset(0);
+      return;
+    }
 
+    const maxOffset = Math.max(inner.scrollHeight - viewport.clientHeight, 0);
+    const pinHeight = window.innerHeight + maxOffset;
+    spacer.style.height = `${pinHeight}px`;
+
+    const totalScroll = pinHeight - window.innerHeight;
     if (totalScroll <= 0) {
       setCardOffset(0);
       return;
     }
 
+    const rect = spacer.getBoundingClientRect();
     const scrolled = Math.min(Math.max(-rect.top, 0), totalScroll);
     const progress = scrolled / totalScroll;
-    const maxOffset = Math.max(inner.scrollHeight - viewport.clientHeight, 0);
 
     setCardOffset(progress * maxOffset);
-  }, [isStickyEnabled]);
+  }, []);
 
   const onScroll = useCallback(() => {
     if (rafRef.current !== null) return;
     rafRef.current = requestAnimationFrame(() => {
-      updateScroll();
+      layout();
       rafRef.current = null;
     });
-  }, [updateScroll]);
+  }, [layout]);
+
+  useLayoutEffect(() => {
+    layout();
+  }, [layout]);
 
   useEffect(() => {
-    measure();
-    updateScroll();
+    const resizeObserver = new ResizeObserver(() => layout());
 
-    const resizeObserver = new ResizeObserver(() => {
-      measure();
-      updateScroll();
+    const nodes = [
+      pinSpacerRef.current,
+      cardsViewportRef.current,
+      cardsInnerRef.current,
+    ];
+
+    nodes.forEach((node) => {
+      if (node) resizeObserver.observe(node);
     });
 
-    if (cardsInnerRef.current) {
-      resizeObserver.observe(cardsInnerRef.current);
-    }
-    if (cardsViewportRef.current) {
-      resizeObserver.observe(cardsViewportRef.current);
-    }
-
-    window.addEventListener("resize", measure);
+    window.addEventListener("resize", layout);
     window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", layout);
       window.removeEventListener("scroll", onScroll);
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [measure, onScroll, updateScroll]);
-
-  useEffect(() => {
-    if (isStickyEnabled) {
-      updateScroll();
-    }
-  }, [isStickyEnabled, pinHeight, updateScroll]);
+  }, [layout, onScroll]);
 
   return (
     <section className={styles.services}>
-      <div
-        ref={pinSpacerRef}
-        className={styles.pinSpacer}
-        style={pinHeight ? { height: pinHeight } : undefined}
-      >
+      <div ref={pinSpacerRef} className={styles.pinSpacer}>
         <div className={styles.stickyPanel}>
           <div className={`container ${styles.inner}`}>
             <div className={styles.flex}>
-              <div className={styles.catMob}>Каталог изделий</div>
+              <button
+                type="button"
+                className={`${styles.catMob} ${catalogOpen ? styles.catMobOpen : ""}`}
+                onClick={() => setCatalogOpen((open) => !open)}
+                aria-expanded={catalogOpen}
+              >
+                Каталог изделий
+              </button>
 
-              <aside className={styles.sidebar}>
+              <aside
+                className={`${styles.sidebar} ${catalogOpen ? styles.sidebarOpen : ""}`}
+              >
                 <nav className={styles.items}>
                   {categories.map((category) => (
                     <Link key={category} href="#" className={styles.item}>

@@ -28,4 +28,7 @@ export const serviceCards: ServiceCard[] = [
   { id: 7, name: "Муляжи", image: "/img/prew_7.jpg" },
   { id: 8, name: "Кинетические фигуры", image: "/img/prew_8.jpg" },
   { id: 9, name: "Садово парковые фигуры", image: "/img/prew_9.jpg" },
+  { id: 10, name: "Архитектурный декор", image: "/img/prew_3.jpg" },
+  { id: 11, name: "Рекламные конструкции", image: "/img/prew_6.jpg" },
+  { id: 12, name: "Тематические инсталляции", image: "/img/prew_8.jpg" },
 ];

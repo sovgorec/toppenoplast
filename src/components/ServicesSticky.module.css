@@ -10,14 +10,16 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  display: flex;
-  align-items: center;
   overflow: hidden;
 }
 
 .inner {
-  width: 100%;
-  padding: 40px 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  box-sizing: border-box;
 }
 
 .flex {
@@ -25,7 +27,8 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 40px;
-  padding-right: 6px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .sidebar {
@@ -36,6 +39,8 @@
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - 80px);
+  padding-left: 32px;
+  box-sizing: border-box;
 }
 
 .items {
@@ -93,6 +98,7 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - 80px);
+  padding-right: 32px;
 }
 
 .title {
@@ -111,9 +117,9 @@
 }
 
 .cardsViewport {
-  flex: 1;
-  overflow: hidden;
+  flex: 1 1 0;
   min-height: 0;
+  overflow: hidden;
 }
 
 .cardsInner {
@@ -121,6 +127,8 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 36px 16px;
   will-change: transform;
+  width: 100%;
+  max-width: 100%;
 }
 
 .catMob {
@@ -128,18 +136,32 @@
   font-size: 24px;
   margin-bottom: 34px;
   position: relative;
+  padding: 10px 48px 10px 0;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-weight: 500;
+  color: #000;
 }
 
 .catMob::after {
   content: "";
   position: absolute;
-  background: url("/img/arrow-bottom.svg") no-repeat center center;
-  width: 20px;
-  height: 20px;
+  right: 0;
   top: 50%;
   margin-top: -10px;
-  right: 0;
+  width: 20px;
+  height: 20px;
+  background: url("/img/arrow-bottom.svg") no-repeat center center;
   transform: scale(1.8);
+  transition: transform 0.25s ease;
+}
+
+.catMobOpen::after {
+  transform: scale(1.8) rotate(180deg);
 }
 
 /* Card styles */
@@ -208,8 +230,13 @@
     height: 300px;
   }
 
+  .sidebar {
+    padding-left: 0;
+  }
+
   .content {
     max-width: 440px;
+    padding-right: 0;
   }
 
   .servicesBtn {
@@ -229,17 +256,47 @@
   }
 
   .inner {
-    padding: 58px 0 100px;
+    width: 100%;
+    max-width: 100%;
+    padding-top: 58px;
+    padding-bottom: 100px;
+    align-items: flex-start;
   }
 
   .flex {
     flex-direction: column;
+    gap: 0;
+    width: 100%;
   }
 
   .sidebar {
     max-height: 0;
     overflow: hidden;
     height: auto;
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    margin-bottom: 0;
+    opacity: 0;
+    transition:
+      max-height 0.35s ease,
+      opacity 0.25s ease,
+      margin-bottom 0.35s ease;
+  }
+
+  .sidebarOpen {
+    max-height: 600px;
+    opacity: 1;
+    margin-bottom: 34px;
+  }
+
+  .sidebarOpen .items {
+    padding-left: 26px;
+  }
+
+  .sidebarOpen .servicesBtn {
+    margin-top: 24px;
+    max-width: 100%;
   }
 
   .title,
@@ -248,26 +305,52 @@
   }
 
   .content {
+    width: 100%;
     max-width: 100%;
     height: auto;
+    padding: 0;
   }
 
   .cardsViewport {
     overflow: visible;
+    width: 100%;
   }
 
   .cardsInner {
     transform: none !important;
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 0;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cardPreview {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin-bottom: 14px;
   }
 
   .catMob {
     display: block;
+    width: 100%;
+    margin-bottom: 34px;
+  }
+
+  .catMobOpen {
+    margin-bottom: 18px;
   }
 }
 
 @media screen and (max-width: 576px) {
-  .cardsInner {
-    grid-template-columns: 1fr;
-    gap: 28px;
+  .inner {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
