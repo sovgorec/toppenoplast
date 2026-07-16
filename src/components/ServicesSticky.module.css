@@ -16,19 +16,18 @@
 .inner {
   height: 100%;
   display: flex;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  align-items: stretch;
   box-sizing: border-box;
 }
 
 .flex {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 40px;
   width: 100%;
   max-width: 100%;
+  height: 100%;
 }
 
 .sidebar {
@@ -38,8 +37,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 80px);
-  padding-left: 32px;
+  height: 100vh;
+  padding: 40px 0 40px 32px;
   box-sizing: border-box;
 }
 
@@ -97,8 +96,9 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 80px);
-  padding-right: 32px;
+  height: 100vh;
+  padding: 40px 32px 0 0;
+  box-sizing: border-box;
 }
 
 .title {
@@ -129,6 +129,8 @@
   will-change: transform;
   width: 100%;
   max-width: 100%;
+  padding-bottom: 40px;
+  box-sizing: border-box;
 }
 
 .catMob {
